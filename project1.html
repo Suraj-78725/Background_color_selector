@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <body>
+    <div class="row vh-100">
+        <div class="col-6 offset-3 align-self-start text-center" >
+            <div class="card text-start">
+                <div class="card-body">
+                    <button id="start-btn" class="btn btn-success w-25">Start</button>
+                    <button id="stop-btn" class="btn btn-warning w-25">Stop</button>
+                    <input id="copy-url"type="text" style="width: 20%;">
+                    <button id="copy-btn" class="btn btn-info w-25">copy</button>
+        </div>
+                </div>
+            </div>
+    </div>
+    <script>
+        color_generator = () =>{
+            let cg ="0123456789ABCDEF";
+            let color_generator_var = "#";
+            for (let index = 0; index < 6; index++) {
+                color_generator_var += cg[Math.floor(Math.random()*16)];
+            }
+            document.getElementById('copy-url').value = color_generator_var;
+            return color_generator_var;
+        }
+        let scg;
+        let copy;
+        start_color_generation = (msg) =>{
+            if(copy != undefined) document.getElementById('copy-btn').innerHTML= "copy";
+            scg = setInterval(change_color,1000);
+            function change_color(){
+                color_generator_var = color_generator();
+                document.body.style.backgroundColor = color_generator_var;
+            }
+        }
+        stop_color_generation  = () =>{
+            clearInterval(scg); 
+            scg = null;
+        }
+
+        handleCopy = () =>{
+            copy = document.getElementById('copy-url').value;
+            console.log(copy);
+            navigator.clipboard.writeText(copy);
+            if(copy){
+                document.getElementById('copy-btn').innerHTML= "copy success";
+            }
+        }
+
+        document.querySelector('#start-btn').addEventListener('click',start_color_generation);
+        document.querySelector('#stop-btn').addEventListener('click',stop_color_generation);
+        document.querySelector('#copy-btn').addEventListener('click',handleCopy);
+
+        </script>
+</body>
+</html>
